@@ -1,36 +1,53 @@
-require "rubygems"
-require "nokogiri"
-require "sequel"
-require "open-uri"
-require "pry"
-require_relative "./company_vorkers"
-require_relative "./company_en_hyouban"
+module JpCompanies
+  module Crawlers
+    class EnHyouban
+      PAGE_COUNT = 300
+      BASE_URL = "https://en-hyouban.com/search/internet_it"
 
-PAGE_COUNT = 5147.fdiv(10).ceil
-BASE_URL = "https://en-hyouban.com/search/internet_it"
-DB = Sequel.connect(adapter: "mysql2", user: "root", host: "localhost", database: "nenshu")
+      attr_reader :db
 
-def url_for_page(page_num)
-  "#{BASE_URL}/#{page_num}"
-end
-
-(1..PAGE_COUNT).each do |page_num|
-  puts "Crawling page ##{page_num} of #{PAGE_COUNT}"
-  begin
-    page = Nokogiri::HTML(open(url_for_page(page_num)))
-    company_items = page.css(".searchListUnit")
-    company_items.each do |company_item|
-      begin
-        company = Nenshu::Company.generate_from_company_item(company_item)
-        company.save(DB)
-      rescue => e
-        puts "Failed to crawl company_item: #{e.message}"
-        next
+      def initialize
+        @db = Sequel.connect(
+          adapter: "mysql2",
+          user: "root",
+          host: "localhost",
+          database: "jp_companies"
+        )
       end
+
+      def crawl
+        (1..PAGE_COUNT).each do |page_num|
+          puts "Crawling page ##{page_num} of #{PAGE_COUNT}"
+          begin
+            page = Nokogiri::HTML(open(url_for_page(page_num)))
+            crawl_page(page)
+          rescue => e
+            puts "Failed to crawl page: #{e.message}"
+            next
+          end
+          sleep(0.2)
+        end
+      end
+
+      private
+
+      def url_for_page(page_num)
+        "#{BASE_URL}/#{page_num}"
+      end
+
+      def crawl_page(page)
+        company_items = page.css(".searchListUnit")
+        company_items.each do |company_item|
+          begin
+            company = JpCompanies::Models::Company.generate_from_company_item(company_item)
+            company.save(db)
+          rescue => e
+            puts "Failed to crawl company_item: #{e.message}"
+            next
+          end
+        end
+      end
+
     end
-  rescue => e
-    puts "Failed to crawl page: #{e.message}"
-    next
   end
-  sleep(0.1)
 end

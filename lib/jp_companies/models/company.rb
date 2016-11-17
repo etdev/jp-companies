@@ -24,13 +24,14 @@ module JpCompanies
       end
 
       def save(db)
+        puts db[:companies]
         db[:companies].insert(attributes)
       rescue => e
         "Failed to store company to DB: #{e.message}"
       end
 
       def self.generate_from_company_item(item)
-        attrs = attributes.keys.reduce({}) do |attr_hash, el|
+        attrs = %i(name nenshu rating rating_count daily_hours_worked).reduce({}) do |attr_hash, el|
           attr_hash.merge({ el => get_via_css(item, el) })
         end
         new(attrs)

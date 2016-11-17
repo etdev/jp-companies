@@ -3,10 +3,7 @@ GEM
   specs:
     coderay (1.1.1)
     method_source (0.8.2)
-    mini_portile2 (2.1.0)
     mysql2 (0.4.5)
-    nokogiri (1.6.8.1)
-      mini_portile2 (~> 2.1.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -19,7 +16,6 @@ PLATFORMS
 
 DEPENDENCIES
   mysql2
-  nokogiri
   pry
   sequel
 
