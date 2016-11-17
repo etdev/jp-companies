@@ -24,7 +24,6 @@ module JpCompanies
       end
 
       def save(db)
-        puts db[:companies]
         db[:companies].insert(attributes)
       rescue => e
         "Failed to store company to DB: #{e.message}"

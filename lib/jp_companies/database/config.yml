@@ -1,0 +1,4 @@
+db_host: <%= ENV["JP_COMPANIES_DB_HOST"] %>
+db_name: <%= ENV["JP_COMPANIES_DB_NAME"] %>
+db_user: <%= ENV["JP_COMPANIES_DB_USER"] %>
+db_password: <%= ENV["JP_COMPANIES_DB_PASSWORD"] %>
