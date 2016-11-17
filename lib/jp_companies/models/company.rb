@@ -1,11 +1,11 @@
 module JpCompanies
   module Models
     class Company
-      attr_accessor :name, :nenshu, :rating, :rating_count, :daily_hours_worked
+      attr_accessor :name, :salary, :rating, :rating_count, :daily_hours_worked
 
       def initialize(attrs)
         @name = attrs[:name]
-        @nenshu = attrs[:nenshu]
+        @salary = attrs[:salary]
         @rating = attrs[:rating]
         @rating_count = attrs[:rating_count]
         @daily_hours_worked = attrs[:daily_hours_worked]
@@ -14,7 +14,7 @@ module JpCompanies
       def attributes
         {
           name: @name,
-          nenshu: @nenshu,
+          salary: @salary,
           rating: @rating,
           rating_count: @rating_count,
           daily_hours_worked: @daily_hours_worked,
@@ -30,7 +30,7 @@ module JpCompanies
       end
 
       def self.generate_from_company_item(item)
-        attrs = %i(name nenshu rating rating_count daily_hours_worked).reduce({}) do |attr_hash, el|
+        attrs = %i(name salary rating rating_count daily_hours_worked).reduce({}) do |attr_hash, el|
           attr_hash.merge({ el => get_via_css(item, el) })
         end
         new(attrs)
@@ -40,7 +40,7 @@ module JpCompanies
         case element
         when :name
           item.css(".companyName > a").text
-        when :nenshu
+        when :salary
           item.css(".salary > .num").text[/\d+/].to_i
         when :rating
           item.css("span.point").text[/\d+/].to_i

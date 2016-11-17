@@ -1,6 +1,8 @@
 module JpCompanies
   module Crawlers
     class EnHyouban
+      include JpCompanies::Database
+
       PAGE_COUNT = 300
       BASE_URL = "https://en-hyouban.com/search/internet_it"
       SLEEP_INTERVAL = 0.5
@@ -14,7 +16,7 @@ module JpCompanies
       private
 
       def db
-        @_db = JpCompanies::Database::DB
+        @_db = DB
       end
 
       def url_for_page(page_num)
