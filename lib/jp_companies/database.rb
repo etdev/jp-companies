@@ -1,5 +1,6 @@
 module JpCompanies
   module Database
+    config_file = File.join(File.dirname(__FILE__), "database", "config.yml")
     CONFIG = YAML.load(ERB.new(File.read(config_file)).result)
 
     # Database accessor singleton
@@ -30,7 +31,7 @@ module JpCompanies
     TABLES = [
       :companies,
       :en_hyouban_entries,
-      :vorker_entries,
+      :vorkers_entries,
       :offices
     ]
 
@@ -47,10 +48,6 @@ module JpCompanies
 
     def sql_schema_file_for(table)
       File.read(File.join(LIB_ROOT, "jp_companies", "database", "#{table}.sql"))
-    end
-
-    def config_file
-      File.join(File.dirname(__FILE__), "database", "config.yml")
     end
   end
 end

@@ -3,7 +3,7 @@ module JpCompanies
     class EnHyouban
       include JpCompanies::Database
 
-      PAGE_COUNT = 300
+      MAX_PAGE_COUNT = 600
       BASE_URL = "https://en-hyouban.com/search/internet_it"
       SLEEP_INTERVAL = 0.5
 
@@ -15,10 +15,6 @@ module JpCompanies
 
       private
 
-      def db
-        @_db = DB
-      end
-
       def url_for_page(page_num)
         "#{BASE_URL}/#{page_num}"
       end
@@ -26,8 +22,8 @@ module JpCompanies
       def crawl_page(page)
         page.css(".searchListUnit").each do |company_item|
           begin
-            company = JpCompanies::Models::Company.generate_from_company_item(company_item)
-            company.save(db)
+            company = JpCompanies::Models::EnHyoubanEntry.generate_from_company_item(company_item)
+            company.save(DB)
           rescue => e
             puts "Failed to crawl company_item: #{e.message}"; next
           end
@@ -35,9 +31,9 @@ module JpCompanies
       end
 
       def all_pages
-        (1..PAGE_COUNT).each do |page_num|
+        (1..MAX_PAGE_COUNT).each do |page_num|
           begin
-            puts "Crawling page ##{page_num} of #{PAGE_COUNT}"
+            puts "Crawling page ##{page_num} of #{MAX_PAGE_COUNT}"
             page = Nokogiri::HTML(open(url_for_page(page_num)))
             yield(page)
           rescue => e
