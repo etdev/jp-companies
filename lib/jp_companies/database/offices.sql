@@ -1,11 +1,11 @@
 /* offices table schema  */
 CREATE TABLE `offices` (
-  `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
-  `company_id` int(8) unsigned NOT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` int unsigned NOT NULL,
   `country` varchar(255) NOT NULL DEFAULT '',
   `city` varchar(255) NOT NULL DEFAULT '',
   `detail` varchar(255) NOT NULL DEFAULT '' COMMENT 'e.g. building name',
-  `floor` int(8) unsigned NOT NULL DEFAULT 0,
+  `floor` tinyint unsigned NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),

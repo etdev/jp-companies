@@ -4,7 +4,7 @@ module JpCompanies
       include JpCompanies::Database
 
       MAX_PAGE_COUNT = 600
-      BASE_URL = "https://en-hyouban.com/search/internet_it"
+      LIST_PAGE_URL = "https://en-hyouban.com/search/internet_it"
       SLEEP_INTERVAL = 0.5
 
       def crawl
@@ -16,7 +16,7 @@ module JpCompanies
       private
 
       def url_for_page(page_num)
-        "#{BASE_URL}/#{page_num}"
+        "#{LIST_PAGE_URL}/#{page_num}"
       end
 
       def crawl_page(page)

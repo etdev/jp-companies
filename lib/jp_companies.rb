@@ -3,6 +3,8 @@ require "nokogiri"
 require "sequel"
 require "open-uri"
 require "erb"
+require "pry"
+require "pry-byebug"
 require "yaml"
 
 LIB_ROOT = File.dirname(__FILE__)
