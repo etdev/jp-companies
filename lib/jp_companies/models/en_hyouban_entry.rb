@@ -13,6 +13,7 @@ module JpCompanies
         @rating = attrs[:rating]
         @ratings_count = attrs[:ratings_count]
         @daily_hours_worked = attrs[:daily_hours_worked]
+        @category = attrs[:category]
       end
 
       def save(db)
@@ -22,7 +23,10 @@ module JpCompanies
       end
 
       def self.generate_from_company_item(item)
-        attrs = %i(en_hyouban_id name average_salary location url rating ratings_count daily_hours_worked)
+        attrs = %i(
+          en_hyouban_id name average_salary location url rating ratings_count
+          daily_hours_worked category
+        )
         attrs = attrs.reduce({}) do |attr_hash, el|
           attr_hash.merge({ el => get_via_css(item, el) })
         end
@@ -41,6 +45,7 @@ module JpCompanies
           rating: @rating,
           ratings_count: @ratings_count,
           daily_hours_worked: @daily_hours_worked,
+          category: @category,
           created_at: Time.now,
           updated_at: Time.now
         }
@@ -64,6 +69,8 @@ module JpCompanies
           item.css(".num").text[/\d+/].to_i
         when :daily_hours_worked
           item.css(".time > .num").text[/\d+-\d+/]
+        when :category
+          item.css(".subDataArea .category span").map(&:text).join("、")
         end
       end
     end

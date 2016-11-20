@@ -1,8 +1,5 @@
 module JpCompanies
   module Database
-    config_file = File.join(File.dirname(__FILE__), "database", "config.yml")
-    CONFIG = YAML.load(ERB.new(File.read(config_file)).result)
-
     # Database accessor singleton
     DB = Sequel.connect(
       adapter: "mysql2",

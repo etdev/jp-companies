@@ -10,6 +10,7 @@ CREATE TABLE `en_hyouban_entries` (
   `rating` tinyint NOT NULL DEFAULT 0,
   `ratings_count` int unsigned NOT NULL DEFAULT 0,
   `daily_hours_worked` varchar(255) NOT NULL DEFAULT '',
+  `category` varchar(255) NOT NULL DEFAULT '',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
